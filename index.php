@@ -141,7 +141,7 @@
 								</div>
 									<div style="margin: 15px 0;">
 										<p><b>Category : </b></p>
-										<select name="category" style="width: 100%; padding: 8px; margin-top: 5px;">
+										<select name="category" style="width: 50%; padding: 8px; margin-top: 5px;">
 											<option value="1">Farmer</option>
 											<option value="0" selected>Buyer</option>
 										</select>
@@ -204,7 +204,7 @@
           </div>
           <div style="margin: 15px 0;">
             <p><b>Category : </b></p>
-            <select name="category" style="width: 100%; padding: 8px; margin-top: 5px;">
+            <select name="category" style="width: 50%; padding: 8px; margin-top: 5px;">
               <option value="1">Farmer</option>
               <option value="0" selected>Buyer</option>
             </select>
