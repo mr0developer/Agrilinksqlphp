@@ -11,8 +11,7 @@
             $picTmpName = $pic['tmp_name'];
             $picSize = $pic['size'];
             $picError = $pic['error'];
-            $p
-            icType = $pic['type'];
+            $picType = $pic['type'];
 
             $picExt = explode('.', $picName);
             $picActualExt = strtolower(end($picExt));
@@ -23,14 +22,18 @@
                 if($picError === 0)
                 {
                     $_SESSION['picId'] = $_SESSION['id'];
-                    $picNameNew = "profile".$_SESSION['picId'].".".$picActualExt ;
+                    $picNameNew = "profile".$_SESSION['picId'].".".$picActualExt;
                     $_SESSION['picName'] = $picNameNew;
                     $_SESSION['picExt'] = $picActualExt;
                     $picDestination = "../images/profileImages/".$picNameNew;
                     move_uploaded_file($picTmpName, $picDestination);
                     $id = $_SESSION['id'];
 
-                    $sql = "UPDATE members SET picStatus=1, picExt='$picActualExt' WHERE id='$id';";
+                    // Determine which table to update based on user category
+                    $table = ($_SESSION['Category'] == 1) ? 'farmer' : 'buyer';
+                    $idField = ($_SESSION['Category'] == 1) ? 'fid' : 'bid';
+                    
+                    $sql = "UPDATE $table SET picStatus=1, picExt='$picActualExt' WHERE $idField='$id';";
 
                     $result = mysqli_query($conn, $sql);
                     if($result)
@@ -52,44 +55,41 @@
             }
             else
             {
-                $_SESSION['message'] = "You cannot upload files with this extension!!!";
+                $_SESSION['message'] = "You cannot upload files of this type! Please upload only jpg, jpeg or png files!";
                 header("Location: ../Login/error.php");
             }
         }
-        else if(isset($_POST['remove']) AND $_SESSION['picId'] != 0)
+        else if(isset($_POST['remove']))
         {
-            $picToRemove = "../images/profileImages/".$_SESSION['picName'];
-            if(!unlink($picToRemove))
+            $id = $_SESSION['id'];
+            // Determine which table to update based on user category
+            $table = ($_SESSION['Category'] == 1) ? 'farmer' : 'buyer';
+            $idField = ($_SESSION['Category'] == 1) ? 'fid' : 'bid';
+            
+            $sql = "UPDATE $table SET picStatus=0, picExt='png' WHERE $idField='$id';";
+            $result = mysqli_query($conn, $sql);
+            if($result)
             {
-                $_SESSION['message'] = "There was an error in deleting the profile picture!";
-                header("Location: ../Login/error.php");
+                $_SESSION['picStatus'] = 0;
+                $_SESSION['picExt'] = 'png';
+                $_SESSION['picId'] = 0;
+                $_SESSION['picName'] = "profile0.png";
+                $_SESSION['message'] = "Profile picture removed successfully !!!";
+                header("Location: ../profileView.php");
             }
             else
             {
-                $_SESSION['message'] = "The profile picture was successfully deleted!";
-                $id = $_SESSION['id'];
-                $sql = "UPDATE members SET picStatus=0, picExt='png' WHERE id='$id';";
-                $_SESSION['picId'] = 0;
-                $_SESSION['picExt'] = "png";
-                $_SESSION['picName'] = "profile0.png";
-                $result = mysqli_query($conn, $sql);
-
-                header("Location: ../profileView.php");
+                $_SESSION['message'] = "There was an error in removing your profile picture! Please Try again!";
+                header("Location: ../Login/error.php");
             }
-        }
-        else
-        {
-            header("Location: ../profileView.php");
         }
     }
 
-function dataFilter($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-
+    function dataFilter($data)
+    {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
 ?>

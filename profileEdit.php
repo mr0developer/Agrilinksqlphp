@@ -6,14 +6,23 @@
 
 <html lang="en">
     <head>
-        <title>Profile: <?php echo $_SESSION['Username']; ?></title>
+        <title>Profile: <?php echo isset($_SESSION['Username']) ? $_SESSION['Username'] : ''; ?></title>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link href="bootstrap\css\bootstrap.min.css" rel="stylesheet">
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="bootstrap\js\bootstrap.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="assets/css/main.css" />
+        <link rel="stylesheet" href="assets/css/profile.css" />
+        <link rel="stylesheet" href="login.css"/>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<link rel="stylesheet" href="css/skel.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/style-xlarge.css" />
     </head>
 
     <body class="subpage">
@@ -22,102 +31,84 @@
             require 'menu.php';
         ?>
 
-        <section id="post" class="wrapper bg-img" data-bg="banner2.jpg">
-            <div class="inner">
-                <div class="box">
-                <header>
-                    <span class="image left"><img src="<?php echo 'images/profileImages/'.(isset($_SESSION['picName']) ? $_SESSION['picName'] : 'profile0.png').'?'.mt_rand(); ?>" class="img-circle" class="img-responsive" height="200px"></span>
-                    <br>
-                    <h2><?php echo isset($_SESSION['Name']) ? $_SESSION['Name'] : '';?></h2>
-                    <h4><?php echo isset($_SESSION['Username']) ? $_SESSION['Username'] : '';?></h4>
-                    <br>
+        <div class="profile-container">
+            <div class="profile-header">
+                <div class="text-center">
+                    <img src="<?php echo 'images/profileImages/'.(isset($_SESSION['picName']) ? $_SESSION['picName'] : 'profile0.png').'?'.mt_rand(); ?>" 
+                         class="profile-image" alt="Profile Picture">
+                    <h2><?php echo isset($_SESSION['Name']) ? $_SESSION['Name'] : ''; ?></h2>
+                    <h4><?php echo isset($_SESSION['Username']) ? $_SESSION['Username'] : ''; ?></h4>
+                </div>
+                <div class="file-upload text-center">
                     <form method="post" action="Profile/updatePic.php" enctype="multipart/form-data">
-                        <input type="file" name="profilePic" id="profilePic">
-                        <br>
-                        <div class="12u$">
-                            <input type="submit" class="button special small" name="upload" value="Upload" />
-                            <input type="submit" class="button special small" name="remove" value="Remove" />
+                        <label for="profilePic" class="file-upload-label">Choose New Profile Picture</label>
+                        <input type="file" name="profilePic" id="profilePic" accept="image/*">
+                        <div class="button-group">
+                            <button type="submit" class="btn-primary" name="upload">Upload</button>
+                            <button type="submit" class="btn-secondary" name="remove">Remove</button>
                         </div>
                     </form>
-                </header>
-                <form method="post" action="Profile/updateProfile.php">
-                    <div class="row uniform">
-                        <div class="8u 12u$(xsmall)">
-                            <input type="text" name="name" id="name" value="<?php echo isset($_SESSION['Name']) ? $_SESSION['Name'] : '';?>" placeholder="Full Name" required />
-                        </div>
-                        <div class="4u 12u$(xsmall)">
-                            <input type="text" name="mobile" id="mobile" value="<?php echo isset($_SESSION['Mobile']) ? $_SESSION['Mobile'] : '';?>" placeholder="Mobile No" required/>
-                        </div>
-                        <div class="6u 12u$(xsmall)">
-                            <input type="text" name="uname" id="uname" value="<?php echo isset($_SESSION['Username']) ? $_SESSION['Username'] : '';?>" placeholder="Username" required/>
-                        </div>
-                        <div class="6u 12u$(xsmall)">
-                            <input type="email" name="email" id="email" value="<?php echo isset($_SESSION['Email']) ? $_SESSION['Email'] : '';?>" placeholder="Email" required/>
-                        </div>
-                        <div class="6u 12u$(xsmall)">
-                            <div class="select-wrapper">
-                              <select name="section" id="section">
-                                    <option value="">Select Section</option>
-                                    <option value="Farmer" <?php echo (isset($_SESSION['Category']) && $_SESSION['Category'] == 1) ? 'selected' : ''; ?>>Farmer</option>
-                                    <option value="Buyer" <?php echo (isset($_SESSION['Category']) && $_SESSION['Category'] == 0) ? 'selected' : ''; ?>>Buyer</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="6u 12u$(xsmall)">
-                            <input type="text" name="addr" id="addr" value="<?php echo isset($_SESSION['Addr']) ? $_SESSION['Addr'] : '';?>" placeholder="Address" required/>
-                        </div>
-                        <p>
-                            <b>Education : </b>
-                        </p>
-                        <div class="3u 12u$(small)">
-                            <input type="radio" id="diploma" name="edu" value="Diploma" checked>
-                            <label for="1">Diploma</label>
-                        </div>
-                        <div class="3u 12u$(small)">
-                            <input type="radio" id="btech" name="edu" value="B.TECH">
-                            <label for="btech">B.TECH</label>
-                        </div>
-                         <div class="3u 12u$(small)">
-                            <input type="radio" id="mtech" name="edu" value="M.TECH">
-                            <label for="mtech">M.TECH</label>
-                        </div>s
-                        <p>
-                            <b>Choose Year : </b>
-                        </p>
-                        <div class="2u 12u$(small)">
-                            <input type="radio" id="1" name="year" value="1" checked>
-                            <label for="1">1<sup>st</sup> Year</label>
-                        </div>
-                        <div class="2u 12u$(small)">
-                            <input type="radio" id="2" name="year" value="2">
-                            <label for="2">2<sup>nd</sup> Year</label>
-                        </div>
-                        <div class="2u 12u$(small)">
-                            <input type="radio" id="3" name="year" value="3">
-                            <label for="3">3<sup>rd</sup> Year</label>
-                        </div>
-                         <div class="2u 12u$(small)">
-                            <input type="radio" id="4" name="year" value="4">
-                            <label for="4">4<sup>th</sup> Year</label>
-                        </div>
-                        <div class="12u$">
-                        <center>
-                            <input type="submit" class = "button special" value="Update Profile" />
-                        </center>
-                        </div>
-                    </div>
-                </form>
                 </div>
             </div>
-        </section>
+
+            <div class="profile-form">
+                <form method="post" action="Profile/updateProfile.php">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" class="form-control" name="name" id="name" 
+                               value="<?php echo isset($_SESSION['Name']) ? $_SESSION['Name'] : ''; ?>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mobile">Mobile Number</label>
+                        <input type="text" class="form-control" name="mobile" id="mobile" 
+                               value="<?php echo isset($_SESSION['Mobile']) ? $_SESSION['Mobile'] : ''; ?>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="uname">Username</label>
+                        <input type="text" class="form-control" name="uname" id="uname" 
+                               value="<?php echo isset($_SESSION['Username']) ? $_SESSION['Username'] : ''; ?>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" name="email" id="email" 
+                               value="<?php echo isset($_SESSION['Email']) ? $_SESSION['Email'] : ''; ?>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="section">Category</label>
+                        <div class="select-wrapper">
+                            <select name="section" id="section" class="form-control">
+                                <option value="">Select Category</option>
+                                <option value="Farmer" <?php echo (isset($_SESSION['Category']) && $_SESSION['Category'] == 1) ? 'selected' : ''; ?>>Farmer</option>
+                                <option value="Buyer" <?php echo (isset($_SESSION['Category']) && $_SESSION['Category'] == 0) ? 'selected' : ''; ?>>Buyer</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="addr">Address</label>
+                        <input type="text" class="form-control" name="addr" id="addr" 
+                               value="<?php echo isset($_SESSION['Addr']) ? $_SESSION['Addr'] : ''; ?>" required>
+                    </div>
+
+
+                    <div class="text-center">
+                        <button type="submit" class="btn-primary">Update Profile</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <!-- Scripts -->
-            <script src="assets/js/jquery.min.js"></script>
-            <script src="assets/js/jquery.scrolly.min.js"></script>
-            <script src="assets/js/jquery.scrollex.min.js"></script>
-            <script src="assets/js/skel.min.js"></script>
-            <script src="assets/js/util.js"></script>
-            <script src="assets/js/main.js"></script>
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/jquery.scrolly.min.js"></script>
+        <script src="assets/js/jquery.scrollex.min.js"></script>
+        <script src="assets/js/skel.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
 
     </body>
 </html>
