@@ -26,10 +26,10 @@
             <div class="inner">
                 <div class="box">
                 <header>
-                    <span class="image left"><img src="<?php echo 'images/profileImages/'.$_SESSION['picName'].'?'.mt_rand(); ?>" class="img-circle" class="img-responsive" height="200px"></span>
+                    <span class="image left"><img src="<?php echo 'images/profileImages/'.(isset($_SESSION['picName']) ? $_SESSION['picName'] : 'profile0.png').'?'.mt_rand(); ?>" class="img-circle" class="img-responsive" height="200px"></span>
                     <br>
-                    <h2><?php echo $_SESSION['Name'];?></h2>
-                    <h4><?php echo $_SESSION['Username'];?></h4>
+                    <h2><?php echo isset($_SESSION['Name']) ? $_SESSION['Name'] : '';?></h2>
+                    <h4><?php echo isset($_SESSION['Username']) ? $_SESSION['Username'] : '';?></h4>
                     <br>
                     <form method="post" action="Profile/updatePic.php" enctype="multipart/form-data">
                         <input type="file" name="profilePic" id="profilePic">
@@ -43,31 +43,28 @@
                 <form method="post" action="Profile/updateProfile.php">
                     <div class="row uniform">
                         <div class="8u 12u$(xsmall)">
-                            <input type="text" name="name" id="name" value="<?php echo $_SESSION['Name'];?>" placeholder="Full Name" required />
+                            <input type="text" name="name" id="name" value="<?php echo isset($_SESSION['Name']) ? $_SESSION['Name'] : '';?>" placeholder="Full Name" required />
                         </div>
                         <div class="4u 12u$(xsmall)">
-                            <input type="text" name="mobile" id="mobile" value="<?php echo $_SESSION['MobileNo'];?>" placeholder="Mobile No" required/>
+                            <input type="text" name="mobile" id="mobile" value="<?php echo isset($_SESSION['Mobile']) ? $_SESSION['Mobile'] : '';?>" placeholder="Mobile No" required/>
                         </div>
                         <div class="6u 12u$(xsmall)">
-                            <input type="text" name="uname" id="uname" value="<?php echo $_SESSION['Username'];?>" placeholder="Username" required/>
+                            <input type="text" name="uname" id="uname" value="<?php echo isset($_SESSION['Username']) ? $_SESSION['Username'] : '';?>" placeholder="Username" required/>
                         </div>
                         <div class="6u 12u$(xsmall)">
-                            <input type="email" name="email" id="email" value="<?php echo $_SESSION['Email'];?>" placeholder="Email" required/>
+                            <input type="email" name="email" id="email" value="<?php echo isset($_SESSION['Email']) ? $_SESSION['Email'] : '';?>" placeholder="Email" required/>
                         </div>
                         <div class="6u 12u$(xsmall)">
                             <div class="select-wrapper">
                               <select name="section" id="section">
-                                    <option value="<?php echo $_SESSION['Section'];?>"><?php echo $_SESSION['Section'];?></option>
-                                    <option value="Band">Band</option>
-                                    <option value="Drama">Drama</option>
-                                    <option value="Dance">Dance</option>
-                                    <option value="Decoration">Decoration</option>
-                                    <option value="Other">Other</option>
+                                    <option value="">Select Section</option>
+                                    <option value="Farmer" <?php echo (isset($_SESSION['Category']) && $_SESSION['Category'] == 1) ? 'selected' : ''; ?>>Farmer</option>
+                                    <option value="Buyer" <?php echo (isset($_SESSION['Category']) && $_SESSION['Category'] == 0) ? 'selected' : ''; ?>>Buyer</option>
                                 </select>
                             </div>
                         </div>
                         <div class="6u 12u$(xsmall)">
-                            <input type="text" name="post" id="post" value="<?php echo $_SESSION['Post'];?>" placeholder="Post Name" required/>
+                            <input type="text" name="addr" id="addr" value="<?php echo isset($_SESSION['Addr']) ? $_SESSION['Addr'] : '';?>" placeholder="Address" required/>
                         </div>
                         <p>
                             <b>Education : </b>
