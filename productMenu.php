@@ -77,19 +77,31 @@
 				<?php
 					if(!isset($_GET['type']) OR $_GET['type'] == "all")
 					{
-					 	$sql = "SELECT * FROM fproduct WHERE 1";
+					 	$sql = "SELECT fp.*, f.fname 
+                                FROM fproduct fp 
+                                JOIN farmer f ON fp.fid = f.fid 
+                                WHERE fp.fid IS NOT NULL";
 					}
 				    if(isset($_GET['type']) AND $_GET['type'] == "fruit")
 					{
-						$sql = "SELECT * FROM fproduct WHERE pcat = 'Fruit'";
+						$sql = "SELECT fp.*, f.fname 
+                                FROM fproduct fp 
+                                JOIN farmer f ON fp.fid = f.fid 
+                                WHERE fp.pcat = 'Fruit' AND fp.fid IS NOT NULL";
 					}
 					if(isset($_GET['type']) AND $_GET['type'] == "vegetable")
 					{
-						$sql = "SELECT * FROM fproduct WHERE pcat = 'Vegetable'";
+						$sql = "SELECT fp.*, f.fname 
+                                FROM fproduct fp 
+                                JOIN farmer f ON fp.fid = f.fid 
+                                WHERE fp.pcat = 'Vegetable' AND fp.fid IS NOT NULL";
 					}
 					if(isset($_GET['type']) AND $_GET['type'] == "grain")
 					{
-						$sql = "SELECT * FROM fproduct WHERE pcat = 'Grains'";
+						$sql = "SELECT fp.*, f.fname 
+                                FROM fproduct fp 
+                                JOIN farmer f ON fp.fid = f.fid 
+                                WHERE fp.pcat = 'Grains' AND fp.fid IS NOT NULL";
 					}
 					$result = mysqli_query($conn, $sql);
 
@@ -106,7 +118,11 @@
 							<a href="review.php?pid=<?php echo $row['pid'] ;?>" > <img class="image fit" src="<?php echo $picDestination;?>" height="220px;"  /></a>
 
 							<div style="align: left">
-							<blockquote><?php echo "Type : ".$row['pcat'].'';?><br><?php echo "Price : KES ".$row['price'].'';?><br></blockquote>
+							<blockquote>
+                                <?php echo "Type : ".$row['pcat'].'';?><br>
+                                <?php echo "Price : KES ".$row['price'].'';?><br>
+                                <?php echo "Farmer : ".$row['fname'].'';?><br>
+                            </blockquote>
 							
 							<?php if(isset($_SESSION['Category']) && $_SESSION['Category'] == 0): ?>
 							<form action="add_to_cart.php" method="post">

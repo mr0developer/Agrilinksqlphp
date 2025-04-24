@@ -63,7 +63,8 @@
                                 <?php 
                                 $total = 0;
                                 while($row = mysqli_fetch_assoc($result)): 
-                                    $total += $row['price'];
+                                    $item_total = $row['price'] * $row['quantity'];
+                                    $total += $item_total;
                                 ?>
                                 <tr>
                                     <td><?php echo $row['product']; ?></td>
@@ -72,9 +73,11 @@
                                     <td>
                                         <input type="number" class="form-control quantity-input" 
                                                data-pid="<?php echo $row['pid']; ?>" 
-                                               value="1" min="1" style="width: 70px;">
+                                               data-price="<?php echo $row['price']; ?>"
+                                               value="<?php echo $row['quantity']; ?>" 
+                                               min="1" style="width: 70px;">
                                     </td>
-                                    <td class="item-total">KES <?php echo number_format($row['price'], 2); ?></td>
+                                    <td class="item-total">KES <?php echo number_format($item_total, 2); ?></td>
                                     <td>
                                         <a href="remove_from_cart.php?pid=<?php echo $row['pid']; ?>" 
                                            class="btn btn-danger btn-sm">Remove</a>
@@ -95,7 +98,7 @@
                     </div>
                 <?php else: ?>
                     <div class="alert alert-info">
-                        Your cart is empty. <a href="market.php">Continue shopping</a>
+                        Your cart is empty. <a href="productMenu.php">Continue shopping</a>
                     </div>
                 <?php endif; ?>
             </div>
@@ -105,16 +108,15 @@
     <script>
         $(document).ready(function() {
             $('.quantity-input').change(function() {
-                var quantity = $(this).val();
-                var pid = $(this).data('pid');
-                var price = parseFloat($(this).closest('tr').find('td:eq(2)').text().replace('KES ', ''));
+                var quantity = parseInt($(this).val());
+                var price = parseFloat($(this).data('price'));
                 var total = quantity * price;
                 
                 $(this).closest('tr').find('.item-total').text('KES ' + total.toFixed(2));
                 
                 // Update cart quantity
                 $.post('update_cart.php', {
-                    pid: pid,
+                    pid: $(this).data('pid'),
                     quantity: quantity
                 });
                 
