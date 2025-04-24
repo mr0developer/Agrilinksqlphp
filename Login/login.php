@@ -2,7 +2,7 @@
     session_start();
 
     $user = dataFilter($_POST['uname']);
-    $pass = $_POST['pass'];
+    $pass = dataFilter($_POST['pass']);
     $category = dataFilter($_POST['category']);
 
     require '../db.php';
@@ -23,7 +23,7 @@ if($category == 1)
     {
         $User = $result->fetch_assoc();
 
-        if (password_verify($_POST['pass'], $User['fpassword']))
+        if (password_verify($pass, $User['fpassword']))
         {
             $_SESSION['id'] = $User['fid'];
             $_SESSION['Hash'] = $User['fhash'];
@@ -78,7 +78,7 @@ else
     {
         $User = $result->fetch_assoc();
 
-        if (password_verify($_POST['pass'], $User['bpassword']))
+        if (password_verify($pass, $User['bpassword']))
         {
             $_SESSION['id'] = $User['bid'];
             $_SESSION['Hash'] = $User['bhash'];

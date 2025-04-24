@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	$mobile = dataFilter($_POST['mobile']);
 	$user = dataFilter($_POST['uname']);
 	$email = dataFilter($_POST['email']);
-	$pass =	dataFilter(password_hash($_POST['pass'], PASSWORD_BCRYPT));
+	$pass = password_hash(dataFilter($_POST['pass']), PASSWORD_BCRYPT);
 	$hash = dataFilter( md5( rand(0,1000) ) );
 	$category = isset($_POST['category']) ? dataFilter($_POST['category']) : 0;
     $addr = dataFilter($_POST['addr']);
