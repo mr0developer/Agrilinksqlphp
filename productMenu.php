@@ -106,7 +106,14 @@
 							<a href="review.php?pid=<?php echo $row['pid'] ;?>" > <img class="image fit" src="<?php echo $picDestination;?>" height="220px;"  /></a>
 
 							<div style="align: left">
-							<blockquote><?php echo "Type : ".$row['pcat'].'';?><br><?php echo "Price : ".$row['price'].' /-';?><br></blockquote>
+							<blockquote><?php echo "Type : ".$row['pcat'].'';?><br><?php echo "Price : KES ".$row['price'].'';?><br></blockquote>
+							
+							<?php if(isset($_SESSION['Category']) && $_SESSION['Category'] == 0): ?>
+							<form action="add_to_cart.php" method="post">
+								<input type="hidden" name="pid" value="<?php echo $row['pid']; ?>">
+								<button type="submit" class="btn btn-success">Add to Cart</button>
+							</form>
+							<?php endif; ?>
 
 						</section>
 						</div>
