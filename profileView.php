@@ -45,7 +45,7 @@
                 <div class="box">
                 <header>
                     <center>
-                    <span><img src="<?php echo 'images/profileImages/'.$_SESSION['picName'].'?'.mt_rand(); ?>" class="image-circle" class="img-responsive" height="200%"></span>
+                    <span><img src="<?php echo 'images/profileImages/'.(isset($_SESSION['picName']) ? $_SESSION['picName'] : 'profile0.png').'?'.mt_rand(); ?>" class="image-circle img-responsive" height="200%"></span>
                     <br>
                     <h2><?php echo $_SESSION['Name'];?></h2>
                     <h4 style="color: black;"><?php echo $_SESSION['Username'];?></h4>
@@ -56,7 +56,7 @@
                         <div class="col-sm-3"></div>
                         <div class="col-sm-3">
                             <b><font size="+1" color="black">RATINGS : </font></b>
-                            <font size="+1"><?php echo $_SESSION['Rating'];?></font>
+                            <font size="+1"><?php echo isset($_SESSION['Rating']) ? $_SESSION['Rating'] : '0';?></font>
                         </div>
                         <div class="col-sm-3">
                             <b><font size="+1" color="black">Email ID : </font></b>
@@ -86,10 +86,10 @@
                                     <div class="3u 12u$(large)">
                                         <a href="profileEdit.php" class="btn btn-danger" style="text-decoration: none;">Edit Profile</a>
                                     </div>
-                                    <div class="3u 12u$(xsmall)">
-            							<a href="uploadProduct.php" class="btn btn-danger" style="text-decoration: none;">Upload Product</a>
-            						</div>
                                     <?php if ($_SESSION['Category'] == 1): ?>
+                                    <div class="3u 12u$(xsmall)">
+                                        <a href="uploadProduct.php" class="btn btn-danger" style="text-decoration: none;">Upload Product</a>
+                                    </div>
                                     <div class="3u 12u$(xsmall)">
                                         <a href="farmer_messages.php" class="btn btn-danger" style="text-decoration: none;">View Messages</a>
                                     </div>

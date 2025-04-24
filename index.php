@@ -38,13 +38,19 @@
 				<br><br>
 				<center>
 					<div class="row uniform">
-						<div class="6u 12u$(xsmall)">
-							<button class="button fit" onclick="document.getElementById('id01').style.display='block'" style="width:auto">LOGIN</button>
-						</div>
+						<?php if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != 1): ?>
+							<div class="6u 12u$(xsmall)">
+								<button class="button fit" onclick="document.getElementById('id01').style.display='block'" style="width:auto">LOGIN</button>
+							</div>
 
-						<div class="6u 12u$(xsmall)">
-							<button class="button fit" onclick="document.getElementById('id02').style.display='block'" style="width:auto">REGISTER</button>
-						</div>
+							<div class="6u 12u$(xsmall)">
+								<button class="button fit" onclick="document.getElementById('id02').style.display='block'" style="width:auto">REGISTER</button>
+							</div>
+						<?php else: ?>
+							<div class="12u 12u$(xsmall)">
+								<a href="<?php echo $_SESSION['Category'] == 1 ? 'profileView.php' : 'market.php'; ?>" class="button fit" style="width:auto">GO TO DASHBOARD</a>
+							</div>
+						<?php endif; ?>
 					</div>
 				</center>
 

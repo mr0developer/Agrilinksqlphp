@@ -59,46 +59,71 @@
                                value="<?php echo isset($_SESSION['Name']) ? $_SESSION['Name'] : ''; ?>" required>
                     </div>
 
-                    <div class="form-group">
-                        <label for="mobile">Mobile Number</label>
-                        <input type="text" class="form-control" name="mobile" id="mobile" 
-                               value="<?php echo isset($_SESSION['Mobile']) ? $_SESSION['Mobile'] : ''; ?>" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="uname">Username</label>
-                        <input type="text" class="form-control" name="uname" id="uname" 
-                               value="<?php echo isset($_SESSION['Username']) ? $_SESSION['Username'] : ''; ?>" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" id="email" 
-                               value="<?php echo isset($_SESSION['Email']) ? $_SESSION['Email'] : ''; ?>" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="section">Category</label>
-                        <div class="select-wrapper">
-                            <select name="section" id="section" class="form-control">
-                                <option value="">Select Category</option>
-                                <option value="Farmer" <?php echo (isset($_SESSION['Category']) && $_SESSION['Category'] == 1) ? 'selected' : ''; ?>>Farmer</option>
-                                <option value="Buyer" <?php echo (isset($_SESSION['Category']) && $_SESSION['Category'] == 0) ? 'selected' : ''; ?>>Buyer</option>
-                            </select>
+                    <div class="row">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-3">
+                            <b><font size="+1" color="black">Mobile No : </font></b>
+                            <input type="text" name="mobile" value="<?php echo $_SESSION['Mobile'];?>" class="form-control" required>
                         </div>
+                        <div class="col-sm-3">
+                            <b><font size="+1" color="black">Category : </font></b>
+                            <input type="text" value="<?php echo $_SESSION['Category'] == 1 ? 'Farmer' : 'Buyer'; ?>" class="form-control" disabled>
+                        </div>
+                        <div class="col-sm-3"></div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="addr">Address</label>
-                        <input type="text" class="form-control" name="addr" id="addr" 
-                               value="<?php echo isset($_SESSION['Addr']) ? $_SESSION['Addr'] : ''; ?>" required>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-6">
+                            <b><font size="+1" color="black">ADDRESS : </font></b>
+                            <textarea name="addr" class="form-control" required><?php echo $_SESSION['Addr'];?></textarea>
+                        </div>
+                        <div class="col-sm-3"></div>
                     </div>
-
-
-                    <div class="text-center">
-                        <button type="submit" class="btn-primary">Update Profile</button>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-6">
+                            <b><font size="+1" color="black">Profile Picture : </font></b>
+                            <input type="file" name="image" class="form-control">
+                        </div>
+                        <div class="col-sm-3"></div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-6">
+                            <button type="submit" class="btn btn-primary" name="update">Update Profile</button>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAccountModal">Delete Account</button>
+                        </div>
+                        <div class="col-sm-3"></div>
                     </div>
                 </form>
+            </div>
+        </div>
+
+        <!-- Delete Account Modal -->
+        <div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteAccountModalLabel">Delete Account</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+                        <form action="delete_account.php" method="POST">
+                            <div class="form-group">
+                                <label for="password">Enter your password to confirm:</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <button type="submit" class="btn btn-danger">Delete Account</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
 
