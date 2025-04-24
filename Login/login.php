@@ -91,6 +91,7 @@ else
             $_SESSION['Active'] = $User['bactive'];
             $_SESSION['logged_in'] = true;
             $_SESSION['Category'] = 0;
+            $_SESSION['Rating'] = 0;
 
             //echo $_SESSION['Email']."  ".$_SESSION['Name'];
 

@@ -2,6 +2,17 @@
     session_start();
     require '../db.php';
     
+    // Check and add picName column to both tables if it doesn't exist
+    $tables = ['farmer', 'buyer'];
+    foreach ($tables as $table) {
+        $check_column = "SHOW COLUMNS FROM $table LIKE 'picName'";
+        $result = mysqli_query($conn, $check_column);
+        if (mysqli_num_rows($result) == 0) {
+            $add_column = "ALTER TABLE $table ADD COLUMN picName VARCHAR(255) DEFAULT 'profile0.png'";
+            mysqli_query($conn, $add_column);
+        }
+    }
+    
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
         if(isset($_POST['upload']))
@@ -24,7 +35,6 @@
                     $_SESSION['picId'] = $_SESSION['id'];
                     $picNameNew = "profile".$_SESSION['picId'].".".$picActualExt;
                     $_SESSION['picName'] = $picNameNew;
-                    $_SESSION['picExt'] = $picActualExt;
                     $picDestination = "../images/profileImages/".$picNameNew;
                     move_uploaded_file($picTmpName, $picDestination);
                     $id = $_SESSION['id'];
@@ -33,10 +43,12 @@
                     $table = ($_SESSION['Category'] == 1) ? 'farmer' : 'buyer';
                     $idField = ($_SESSION['Category'] == 1) ? 'fid' : 'bid';
                     
-                    $sql = "UPDATE $table SET picStatus=1, picExt='$picActualExt' WHERE $idField='$id';";
+                    // Update only the profile picture name in the database
+                    $sql = "UPDATE $table SET picName = ? WHERE $idField = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("si", $picNameNew, $id);
 
-                    $result = mysqli_query($conn, $sql);
-                    if($result)
+                    if($stmt->execute())
                     {
                         $_SESSION['message'] = "Profile picture Updated successfully !!!";
                         header("Location: ../profileView.php");
@@ -66,14 +78,16 @@
             $table = ($_SESSION['Category'] == 1) ? 'farmer' : 'buyer';
             $idField = ($_SESSION['Category'] == 1) ? 'fid' : 'bid';
             
-            $sql = "UPDATE $table SET picStatus=0, picExt='png' WHERE $idField='$id';";
-            $result = mysqli_query($conn, $sql);
-            if($result)
+            // Set default profile picture
+            $defaultPic = "profile0.png";
+            $_SESSION['picName'] = $defaultPic;
+            
+            $sql = "UPDATE $table SET picName = ? WHERE $idField = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("si", $defaultPic, $id);
+            
+            if($stmt->execute())
             {
-                $_SESSION['picStatus'] = 0;
-                $_SESSION['picExt'] = 'png';
-                $_SESSION['picId'] = 0;
-                $_SESSION['picName'] = "profile0.png";
                 $_SESSION['message'] = "Profile picture removed successfully !!!";
                 header("Location: ../profileView.php");
             }
