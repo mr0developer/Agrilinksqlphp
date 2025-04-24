@@ -219,6 +219,63 @@ INSERT INTO `transaction` (`tid`, `bid`, `pid`, `name`, `city`, `mobile`, `email
 (2, 4, 27, 'janobe sourcecode', 'kabankalan', '09928292121', 'janobe@gmail.com', '61211', 'kab');
 
 --
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `buyer_id` int(11) NOT NULL,
+  `farmer_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `status` enum('pending','confirmed','completed','cancelled') NOT NULL DEFAULT 'pending',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`order_id`),
+  KEY `buyer_id` (`buyer_id`),
+  KEY `farmer_id` (`farmer_id`),
+  KEY `product_id` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `chat_messages`
+--
+
+CREATE TABLE `chat_messages` (
+  `message_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL,
+  `sender_id` int(11) NOT NULL,
+  `sender_type` enum('farmer','buyer') NOT NULL,
+  `message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_read` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`message_id`),
+  KEY `order_id` (`order_id`),
+  KEY `sender_id` (`sender_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `product_ratings`
+--
+
+CREATE TABLE `product_ratings` (
+  `rating_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL,
+  `buyer_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `farmer_id` int(11) NOT NULL,
+  `rating` int(11) NOT NULL,
+  `review` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`rating_id`),
+  KEY `order_id` (`order_id`),
+  KEY `buyer_id` (`buyer_id`),
+  KEY `product_id` (`product_id`),
+  KEY `farmer_id` (`farmer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
 -- Indexes for dumped tables
 --
 

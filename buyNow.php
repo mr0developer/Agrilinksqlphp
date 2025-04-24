@@ -2,6 +2,12 @@
 	session_start();
 	require 'db.php';
     $pid = $_GET['pid'];
+
+    // Get product details
+    $sql = "SELECT * FROM fproduct WHERE pid = '$pid'";
+    $result = mysqli_query($conn, $sql);
+    $product = mysqli_fetch_assoc($result);
+
     if($_SERVER['REQUEST_METHOD'] == "POST")
     {
         $name = $_POST['name'];
@@ -11,19 +17,34 @@
         $pincode = $_POST['pincode'];
         $addr = $_POST['addr'];
         $bid = $_SESSION['id'];
+        $farmer_id = $product['fid'];
+        $quantity = 1; // Default quantity
+        $price = $product['price'];
 
-        $sql = "INSERT INTO transaction (bid, pid, name, city, mobile, email, pincode, addr)
-                VALUES ('$bid', '$pid', '$name', '$city', '$mobile', '$email', '$pincode', '$addr')";
+        // First create the order
+        $sql = "INSERT INTO orders (buyer_id, farmer_id, product_id, quantity, price, status) 
+                VALUES ('$bid', '$farmer_id', '$pid', '$quantity', '$price', 'pending')";
         $result = mysqli_query($conn, $sql);
-        if($result)
-        {
-            $_SESSION['message'] = "Order Succesfully placed! <br /> Thanks for shopping with us!!!";
-            header('Location: Login/success.php');
-        }
-        else {
-            echo $result->mysqli_error();
-            //$_SESSION['message'] = "Sorry!<br />Order was not placed";
-            //header('Location: Login/error.php');
+        
+        if($result) {
+            $order_id = mysqli_insert_id($conn);
+            
+            // Then save the transaction details
+            $sql = "INSERT INTO transaction (bid, pid, name, city, mobile, email, pincode, addr)
+                    VALUES ('$bid', '$pid', '$name', '$city', '$mobile', '$email', '$pincode', '$addr')";
+            $result = mysqli_query($conn, $sql);
+            
+            if($result) {
+                // Redirect to chat page
+                header("Location: chat.php?order_id=" . $order_id);
+                exit();
+            } else {
+                $_SESSION['message'] = "Error saving transaction details";
+                header('Location: Login/error.php');
+            }
+        } else {
+            $_SESSION['message'] = "Error creating order";
+            header('Location: Login/error.php');
         }
     }
 ?>
