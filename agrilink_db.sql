@@ -359,8 +359,9 @@ ALTER TABLE `transaction`
 --
 -- Constraints for table `buyer`
 --
-ALTER TABLE `buyer`
-  ADD CONSTRAINT `buyer_ibfk_1` FOREIGN KEY (`bid`) REFERENCES `farmer` (`fid`);
+-- Removing the foreign key constraint that was incorrectly linking buyer to farmer
+-- ALTER TABLE `buyer`
+--   ADD CONSTRAINT `buyer_ibfk_1` FOREIGN KEY (`bid`) REFERENCES `farmer` (`fid`);
 
 --
 -- Constraints for table `likedata`
