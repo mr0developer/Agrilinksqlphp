@@ -105,12 +105,6 @@ CREATE TABLE `farmer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `farmer`
---
-
-INSERT INTO `farmer` (`fid`, `fname`, `fusername`, `fpassword`, `fhash`, `femail`, `fmobile`, `faddress`, `factive`, `frating`, `picExt`, `picStatus`) VALUES
-(3, 'Kaivalya Hemant Mendki', 'ThePhenom', '$2y$10$22ezmzHRa9c5ycHmVm5RpOnlT4LwFaDZar1XhmLRJQKGrcVRhPgti', '61b4a64be663682e8cb037d9719ad8cd', 'kmendki98@gmail.com', '8600611198', 'abcde', 0, 0, 'png', 0),
-(4, 'janobe sourcecode', 'janobe', '$2y$10$rc0KGE42tOnICs9jrQYb2ODhM.03G.NjBVkl0HYIL9N.nhGy8YFy6', '94f6d7e04a4d452035300f18b984988c', 'janobe@gmail.com', '0928278822', 'kab', 0, 0, 'png', 0);
 
 -- --------------------------------------------------------
 
@@ -125,6 +119,7 @@ CREATE TABLE `fproduct` (
   `pcat` varchar(255) NOT NULL,
   `pinfo` varchar(255) NOT NULL,
   `price` float NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT '0',
   `pimage` varchar(255) NOT NULL DEFAULT 'blank.png',
   `picStatus` int(10) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -133,12 +128,7 @@ CREATE TABLE `fproduct` (
 -- Dumping data for table `fproduct`
 --
 
-INSERT INTO `fproduct` (`fid`, `pid`, `product`, `pcat`, `pinfo`, `price`, `pimage`, `picStatus`) VALUES
-(3, 27, 'Mango', 'Fruit', '<p>Mango raseela</p>\r\n', 500, 'Mango3.jpeg', 1),
-(3, 28, 'Ladyfinger', 'Vegetable', '<p>Its veggie</p>\r\n', 1000, 'Ladyfinger3.jpg', 1),
-(3, 29, 'Bajra', 'Grains', '<p>bajre di rti</p>\r\n', 400, 'Bajra3.jpg', 1),
-(3, 30, 'Banana', 'Fruit', '<p>Jalgaon banana</p>\r\n', 400, 'Banana3.jpg', 1),
-(4, 31, 'janobe', 'Fruit', '<p>ssa</p>\r\n', 213, 'janobe4.jpg', 1);
+
 
 -- --------------------------------------------------------
 
@@ -331,7 +321,7 @@ ALTER TABLE `blogdata`
 --
 -- AUTO_INCREMENT for table `buyer`
 --
-ALTER TABLE `buyer`
+ALTER TABLE `buyer` 
   MODIFY `bid` int(100) NOT NULL AUTO_INCREMENT;
 
 --

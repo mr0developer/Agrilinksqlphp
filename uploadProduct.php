@@ -8,10 +8,11 @@
 		$productName = dataFilter($_POST['pname']);
 		$productInfo = $_POST['pinfo'];
 		$productPrice = dataFilter($_POST['price']);
+		$productQuantity = dataFilter($_POST['quantity']);
 		$fid = $_SESSION['id'];
 
-		$sql = "INSERT INTO fproduct (fid, product, pcat, pinfo, price)
-			   VALUES ('$fid', '$productName', '$productType', '$productInfo', '$productPrice')";
+		$sql = "INSERT INTO fproduct (fid, product, pcat, pinfo, price, quantity)
+			   VALUES ('$fid', '$productName', '$productType', '$productInfo', '$productPrice', '$productQuantity')";
 		$result = mysqli_query($conn, $sql);
 		if(!$result)
 		{
@@ -149,6 +150,11 @@
 					  <input type="text" name="price" id="price" value="" placeholder="Price" style="background-color:white;color: black;" />
 				</div>
 				<div class="col-sm-6">
+					  <input type="number" name="quantity" id="quantity" value="" placeholder="Quantity Available" style="background-color:white;color: black;" min="0" required />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
 					<button class="button fit" style="width:auto; color:black;">Submit</button>
 				</div>
 			</div>

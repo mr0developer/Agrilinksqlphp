@@ -47,6 +47,8 @@
 
 					$picDestination = "images/productImages/".$row['pimage'];
 
+					// Check if current user is the product owner
+					$isProductOwner = isset($_SESSION['id']) && $_SESSION['Category'] == 1 && $_SESSION['id'] == $fid;
 					?>
 				<section id="main" class="wrapper style1 align-center">
 						<div class="container">
@@ -72,12 +74,18 @@
 						<div class="12u$">
                             <center>
                                 <div class="row uniform">
+                                    <?php if (!$isProductOwner): ?>
                                     <div class="6u 12u$(large)">
                                         <a href="myCart.php?flag=1&pid=<?= $pid; ?>" class="btn btn-primary" style="text-decoration: none;"><span class="glyphicon glyphicon-shopping-cart"> AddToCart</a>
                                     </div>
                                     <div class="6u 12u$(large)">
                                         <a href="buyNow.php?pid=<?= $pid; ?>" class="btn btn-primary" style="text-decoration: none;">Buy Now</a>
                                     </div>
+                                    <?php else: ?>
+                                    <div class="12u$">
+                                        <p style="color: red;">You cannot buy or rate your own product</p>
+                                    </div>
+                                    <?php endif; ?>
                                 </div>
                             </center>
                         </div>
@@ -115,6 +123,7 @@
 
 			?>
 			<div class="container">
+				<?php if (!$isProductOwner): ?>
 				<p style="font: 20px Times new roman; align: left;">Rate this product</p>
 				<form method="POST" action="reviewInput.php?pid=<?= $pid; ?>">
 					<div class="row">
@@ -133,6 +142,7 @@
 						</div>
 					</div>
 				</form>
+				<?php endif; ?>
 			</div>
 
 
