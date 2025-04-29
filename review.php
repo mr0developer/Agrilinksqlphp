@@ -76,7 +76,7 @@
                                 <div class="row uniform">
                                     <?php if (!$isProductOwner): ?>
                                     <div class="6u 12u$(large)">
-                                        <a href="myCart.php?flag=1&pid=<?= $pid; ?>" class="btn btn-primary" style="text-decoration: none;"><span class="glyphicon glyphicon-shopping-cart"> AddToCart</a>
+                                        <a href="addToCart.php?pid=<?= $pid; ?>" class="btn btn-primary" style="text-decoration: none;"><span class="glyphicon glyphicon-shopping-cart"> AddToCart</a>
                                     </div>
                                     <div class="6u 12u$(large)">
                                         <a href="buyNow.php?pid=<?= $pid; ?>" class="btn btn-primary" style="text-decoration: none;">Buy Now</a>

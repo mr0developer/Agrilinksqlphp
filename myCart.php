@@ -1,3 +1,4 @@
+/*
 <?php
 	session_start();
 	require 'db.php';
@@ -65,25 +66,35 @@
 					<?php
                         $sql = "SELECT * FROM mycart WHERE bid = '$bid'";
                         $result = mysqli_query($conn, $sql);
-						while($row = $result->fetch_array()):
-                            $pid = $row['pid'];
-                            $sql = "SELECT * FROM fproduct WHERE pid = '$pid'";
-                            $result1 = mysqli_query($conn, $sql);
-                            $row1 = $result1->fetch_array();
-							$picDestination = "images/productImages/".$row1['pimage'];
-						?>
-							<div class="col-md-4">
-							<section>
-							<strong><h2 class="title" style="color:black; "><?php echo $row1['product'].'';?></h2></strong>
-							<a href="review.php?pid=<?php echo $row1['pid'] ;?>" > <img class="image fit" src="<?php echo $picDestination;?>" alt=""  /></a>
+                        
+                        if ($result && mysqli_num_rows($result) > 0) {
+                            while($row = $result->fetch_array()):
+                                $pid = $row['pid'];
+                                $sql = "SELECT * FROM fproduct WHERE pid = '$pid'";
+                                $result1 = mysqli_query($conn, $sql);
+                                
+                                if ($result1 && mysqli_num_rows($result1) > 0) {
+                                    $row1 = $result1->fetch_array();
+                                    $picDestination = "images/productImages/".$row1['pimage'];
+                    ?>
+                            <div class="col-md-4">
+                            <section>
+                            <strong><h2 class="title" style="color:black; "><?php echo htmlspecialchars($row1['product']); ?></h2></strong>
+                            <a href="review.php?pid=<?php echo $row1['pid']; ?>" > <img class="image fit" src="<?php echo htmlspecialchars($picDestination); ?>" alt=""  /></a>
 
-							<div style="align: left">
-							<blockquote><?php echo "Type : ".$row1['pcat'].'';?><br><?php echo "Price : ".$row1['price'].' /-';?><br></blockquote>
+                            <div style="align: left">
+                            <blockquote><?php echo "Type : ".htmlspecialchars($row1['pcat']); ?><br><?php echo "Price : ".htmlspecialchars($row1['price']).' /-'; ?><br></blockquote>
 
-						</section>
-						</div>
+                        </section>
+                        </div>
 
-                    <?php endwhile;	?>
+                    <?php 
+                                }
+                            endwhile;
+                        } else {
+                            echo '<div class="col-12"><p>Your cart is empty.</p></div>';
+                        }
+                    ?>
 
 
 
@@ -96,3 +107,4 @@
 
 	</body>
 </html>
+*/
