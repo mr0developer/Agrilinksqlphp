@@ -123,14 +123,7 @@
                                 <?php echo "Price : KES ".$row['price'].'';?><br>
                                 <?php echo "Farmer : ".$row['fname'].'';?><br>
                             </blockquote>
-							
-							<?php if(isset($_SESSION['Category']) && $_SESSION['Category'] == 0): ?>
-							<form action="add_to_cart.php" method="post">
-								<input type="hidden" name="pid" value="<?php echo $row['pid']; ?>">
-								<button type="submit" class="btn btn-success">Add to Cart</button>
-							</form>
-							<?php endif; ?>
-
+							</div>
 						</section>
 						</div>
 
