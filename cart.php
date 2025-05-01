@@ -94,7 +94,7 @@
                         </table>
                     </div>
                     <div class="text-right">
-                        <a href="checkout.php" class="btn btn-success btn-lg">Proceed to Checkout</a>
+                        <a href="orderChat.php" class="btn btn-success btn-lg">Proceed to Order Chat</a>
                     </div>
                 <?php else: ?>
                     <div class="alert alert-info">
