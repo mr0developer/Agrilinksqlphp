@@ -3,32 +3,32 @@ session_start();
 require 'db.php';
 
 if (!isset($_SESSION['logged_in']) || $_SESSION['Category'] != 0) {
-    header("Location: Login/error.php");
     $_SESSION['message'] = "Please login as a buyer to view order confirmation!";
+    header("Location: Login/error.php");
     exit();
 }
 
 $order_id = isset($_GET['order_id']) ? (int)$_GET['order_id'] : 0;
 
 if ($order_id <= 0) {
-    header("Location: error.php");
     $_SESSION['message'] = "Invalid order ID!";
+    header("Location: error.php");
     exit();
 }
 
-// Get order details
-$sql = "SELECT o.*, p.product, f.fname as farmer_name, b.bname as buyer_name
-        FROM orders o 
-        JOIN fproduct p ON o.product_id = p.pid 
-        JOIN farmer f ON o.farmer_id = f.fid 
-        JOIN buyer b ON o.buyer_id = b.bid 
-        WHERE o.order_id = $order_id AND o.buyer_id = " . $_SESSION['id'];
+// Fetch order details
+$sql = "SELECT o.*, p.product, f.fname AS farmer_name, b.bname AS buyer_name
+        FROM orders o
+        JOIN fproduct p ON o.product_id = p.pid
+        JOIN farmer f ON o.farmer_id = f.fid
+        JOIN buyer b ON o.buyer_id = b.bid
+        WHERE o.order_id = $order_id AND o.buyer_id = {$_SESSION['id']}";
 $result = mysqli_query($conn, $sql);
 $order = mysqli_fetch_assoc($result);
 
 if (!$order) {
-    header("Location: error.php");
     $_SESSION['message'] = "Order not found!";
+    header("Location: error.php");
     exit();
 }
 ?>
@@ -54,8 +54,8 @@ if (!$order) {
 </head>
 <body>
     <?php require 'menu.php'; ?>
-    
-    <div class="container">
+
+    <div class="container my-4">
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="card">
@@ -64,36 +64,36 @@ if (!$order) {
                     </div>
                     <div class="card-body">
                         <div class="alert alert-success">
-                            <h4>Thank you for your order!</h4>
+                            <h4>Thank you, <?php echo htmlspecialchars($order['buyer_name']); ?>!</h4>
                             <p>Your order has been successfully placed and confirmed.</p>
                         </div>
-                        
-                        <div class="order-details">
+
+                        <div class="order-details mb-4">
                             <h4>Order Details</h4>
                             <p><strong>Order ID:</strong> #<?php echo $order_id; ?></p>
                             <p><strong>Product:</strong> <?php echo htmlspecialchars($order['product']); ?></p>
-                            <p><strong>Quantity:</strong> <?php echo $order['quantity']; ?> units</p>
+                            <p><strong>Quantity:</strong> <?php echo (int)$order['quantity']; ?> units</p>
                             <p><strong>Total Price:</strong> KES <?php echo number_format($order['price'] * $order['quantity'], 2); ?></p>
                             <p><strong>Farmer:</strong> <?php echo htmlspecialchars($order['farmer_name']); ?></p>
                         </div>
-                        
-                        <div class="pickup-info mt-4">
+
+                        <div class="pickup-info mb-4">
                             <h4>Pickup Information</h4>
                             <div class="alert alert-info">
-                                <p><strong>Please pick up your order at:</strong></p>
+                                <p><strong>Pickup Location:</strong></p>
                                 <p>Local Warehouse<br>
                                 Agrilink Distribution Center<br>
                                 123 Market Street<br>
                                 Business Hours: 9:00 AM - 5:00 PM</p>
-                                <p><strong>Please bring:</strong></p>
+                                <p><strong>Bring with you:</strong></p>
                                 <ul>
                                     <li>Your order confirmation number (#<?php echo $order_id; ?>)</li>
                                     <li>Valid ID</li>
                                 </ul>
                             </div>
                         </div>
-                        
-                        <div class="text-center mt-4">
+
+                        <div class="text-center">
                             <a href="chat.php?order_id=<?php echo $order_id; ?>" class="btn btn-primary">View Order Chat</a>
                             <a href="productMenu.php" class="btn btn-secondary">Continue Shopping</a>
                         </div>
@@ -106,4 +106,4 @@ if (!$order) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
 </body>
-</html> 
+</html>
