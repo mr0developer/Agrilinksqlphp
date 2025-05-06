@@ -141,9 +141,13 @@
 					  </div>
 				</div>
 				<br>
-				<div>
-					<textarea  name="pinfo" id="pinfo" rows="12"></textarea>
+			<div class="row">
+				<div class="col-sm-12">
+					<textarea name="pinfo" id="pinfo" placeholder="Product Description" style="background-color:white;color: black;"></textarea>
 				</div>
+			</div>
+
+
 			<br>
 			<div class="row">
 				<div class="col-sm-6">

@@ -60,6 +60,7 @@
 									<p style="font: 50px Times new roman;"><?= $row['product']; ?></p>
 									<p style="font: 30px Times new roman;">Product Owner : <?= $frow['fname']; ?></p>
 									<p style="font: 30px Times new roman;">Price : <?= $row['price'].' /-'; ?></p>
+									<p style="font: 30px Times new roman;">Available Quantity : <?= $row['quantity'].' units'; ?></p>
 								</div>
 							</div><br />
 							<div class="row">
